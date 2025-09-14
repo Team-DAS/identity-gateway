@@ -6,24 +6,17 @@ spring:
     name: cell-gateway
   cloud:
     gateway:
-      # Configuracion para que el Gateway se descubra a si mismo
-      discovery:
-        locator:
-          enabled: true
-          lower-case-service-id: true
       routes:
         - id: account-service
-          uri: lb://account-service # "lb" es Load Balancer. Usa el nombre del servicio en Docker
+          uri: http://account-service:8081
           predicates:
-          - Path=/api/v1/accounts/**
-
+            - Path=/api/v1/accounts/**
         - id: auth-service
-          uri: lb://auth-service
+          uri: http://auth-service:8082
           predicates:
-          - Path=/api/v1/auth/**
-
+            - Path=/api/v1/auth/**
         - id: authz-service
-          uri: lb://authz-service
+          uri: http://authz-service:8083
           predicates:
             - Path=/api/v1/authz/**
 
